@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <title>Usuarios y Asignaciones</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body data-page="admin">
+	<header>
+		<h1 class="header-brand">
+			<img src="img/LOGO_MEP-removebg-preview.png" alt="Logo Ministerio de Educacion Publica">
+			<span>Panel Administrador</span>
+		</h1>
+		<button class="hamburger" data-hamburger aria-label="Menu">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+		<nav>
+			<a href="Proyectos.html" data-nav-link>Crear usuario</a>
+			<a href="usuarios_admin.html" data-nav-link>Usuarios</a>
+			<a href="resultados_admin.html" data-nav-link>Resultados</a>
+			<a href="#" data-logout-link>Cerrar sesion</a>
+		</nav>
+	</header>
+
+	<main>
+		<section class="card admin-identity-card">
+			<div class="identity-row">
+				<strong class="identity-label">Admin:</strong>
+				<span class="identity-name" data-admin-name></span>
+				<span class="identity-feria-tag" data-feria-tag></span>
+			</div>
+			<div class="admin-feria-filter">
+				<label>
+					Filtrar por tipo de feria
+					<select data-admin-feria-filter>
+						<option value="Feria Cientifica y Tecnologica">Feria Cientifica y Tecnologica</option>
+						<option value="Feria Expotecnica">Feria Expotecnica</option>
+						<option value="Festival Estudiantil de las Artes">Festival Estudiantil de las Artes</option>
+					</select>
+				</label>
+				<p class="form-status" data-admin-feria-status role="alert" aria-live="polite"></p>
+			</div>
+		</section>
+
+		<section class="card">
+			<h2>Modulos del panel administrador</h2>
+			<div class="admin-actions">
+				<a class="admin-action-button" href="Proyectos.html">Crear usuario</a>
+				<a class="admin-action-button" href="usuarios_admin.html">Usuarios registrados y asignaciones</a>
+				<a class="admin-action-button" href="resultados_admin.html">Proyectos y puntajes</a>
+			</div>
+		</section>
+
+		<section class="card">
+			<h2>Usuarios registrados</h2>
+			<p class="form-status" data-users-table-status role="alert" aria-live="polite"></p>
+			<div class="table-wrap">
+				<table class="results-table">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Rol</th>
+							<th>Tipo de feria</th>
+							<th>Accion</th>
+						</tr>
+					</thead>
+					<tbody data-users-table></tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="card">
+			<h2>Jueces registrados y asignacion de 3 proyectos</h2>
+			<p>Asigna hasta tres proyectos a cada juez desde esta tabla.</p>
+			<p class="form-status" data-judge-assignments-status role="alert" aria-live="polite"></p>
+			<div class="table-wrap">
+				<table class="results-table assignments-table">
+					<thead>
+						<tr>
+							<th>Juez</th>
+							<th>Proyecto 1</th>
+							<th>Proyecto 2</th>
+							<th>Proyecto 3</th>
+							<th>Accion</th>
+						</tr>
+					</thead>
+					<tbody data-judge-assignments></tbody>
+				</table>
+			</div>
+		</section>
+	</main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

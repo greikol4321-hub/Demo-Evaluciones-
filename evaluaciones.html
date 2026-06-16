@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <title>Panel Juez</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body data-page="judge">
+	<header>
+		<h1 class="header-brand">
+			<img src="img/LOGO_MEP-removebg-preview.png" alt="Logo Ministerio de Educacion Publica">
+			<span>Panel de Juez</span>
+		</h1>
+		<button class="hamburger" data-hamburger aria-label="Menu">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+		<nav>
+			<a href="evaluaciones.html" data-nav-link>Mis evaluaciones</a>
+			<a href="#" data-logout-link>Cerrar sesion</a>
+		</nav>
+	</header>
+
+	<main>
+		<section class="card judge-identity-card">
+			<div class="identity-row">
+				<strong class="identity-label">Juez:</strong>
+				<span class="identity-name" data-judge-name></span>
+				<span class="identity-feria-tag" data-feria-tag></span>
+			</div>
+		</section>
+
+		<section class="card form-card">
+			<h2>Evaluacion de proyectos asignados</h2>
+			<form data-evaluation-form class="grid-form">
+				<label>
+					Proyecto a evaluar
+					<select name="proyecto_id" data-project-select required></select>
+				</label>
+
+				<div class="table-wrap">
+					<table class="results-table rubric-table">
+						<thead>
+							<tr>
+								<th>Indicadores a evaluar</th>
+								<th>3</th>
+								<th>2</th>
+								<th>1</th>
+								<th>0</th>
+							</tr>
+						</thead>
+							<tbody data-rubric-body></tbody>
+					</table>
+				</div>
+
+				<button type="submit">Guardar evaluacion</button>
+			</form>
+			<p class="form-status" data-evaluation-form-status role="alert" aria-live="polite"></p>
+		</section>
+
+		<section class="card">
+			<h2>Mis evaluaciones registradas</h2>
+			<p class="form-status" data-my-evaluations-status role="alert" aria-live="polite"></p>
+			<div class="table-wrap">
+				<table class="results-table">
+					<thead>
+						<tr>
+							<th>Proyecto</th>
+							<th>Valores obtenidos</th>
+							<th>Total obtenido</th>
+						</tr>
+					</thead>
+					<tbody data-my-evaluations></tbody>
+				</table>
+			</div>
+		</section>
+	</main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
