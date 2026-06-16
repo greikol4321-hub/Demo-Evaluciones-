@@ -478,7 +478,12 @@ main {
 
 body[data-page="judge"] main,
 body[data-page="admin"] main {
-  padding-top: 120px;
+  padding-top: 88px;
+}
+
+body.nav-open[data-page="judge"] main,
+body.nav-open[data-page="admin"] main {
+  padding-top: 160px;
 }
 
 body[data-page="login"] main {
@@ -1094,7 +1099,12 @@ ul[data-project-results] li + li {
 
   body[data-page="judge"] main,
   body[data-page="admin"] main {
-    padding-top: 160px;
+    padding-top: 76px;
+  }
+
+  body.nav-open[data-page="judge"] main,
+  body.nav-open[data-page="admin"] main {
+    padding-top: 140px;
   }
 
   body[data-page="login"] {
@@ -1252,7 +1262,12 @@ ul[data-project-results] li + li {
 
   body[data-page="judge"] main,
   body[data-page="admin"] main {
-    padding-top: 210px;
+    padding-top: 72px;
+  }
+
+  body.nav-open[data-page="judge"] main,
+  body.nav-open[data-page="admin"] main {
+    padding-top: 170px;
   }
 
   body[data-page="login"] {
@@ -1371,6 +1386,11 @@ ul[data-project-results] li + li {
 
   body[data-page="judge"] main,
   body[data-page="admin"] main {
-    padding-top: 230px;
+    padding-top: 68px;
+  }
+
+  body.nav-open[data-page="judge"] main,
+  body.nav-open[data-page="admin"] main {
+    padding-top: 180px;
   }
 }

@@ -93,17 +93,20 @@ function setupHamburgerMenu() {
 
   hamburger.addEventListener("click", () => {
     header.classList.toggle("nav-open");
+    document.body.classList.toggle("nav-open");
   });
 
   document.addEventListener("click", (e) => {
     if (!header.contains(e.target)) {
       header.classList.remove("nav-open");
+      document.body.classList.remove("nav-open");
     }
   });
 
   document.querySelectorAll("[data-nav-link]").forEach((link) => {
     link.addEventListener("click", () => {
       header.classList.remove("nav-open");
+      document.body.classList.remove("nav-open");
     });
   });
 }
@@ -1405,7 +1408,7 @@ function showEditUserModal(user, roles) {
   `;
 
   const roleOptions = roles
-    .map((r) => `<option value="${r.id}" ${r.id === user.role_id ? "selected" : ""}>${normalizeRoleName(r.nombre)}</option>`)
+    .map((r) => `<option value="${r.id}" ${Number(r.id) === Number(user.role_id) ? "selected" : ""}>${normalizeRoleName(r.nombre)}</option>`)
     .join("");
 
   const feriaOptions = [
@@ -1488,9 +1491,11 @@ function showEditUserModal(user, roles) {
         overlay.remove();
         window.location.reload();
       }, 800);
-    } catch {
-      status.textContent = "No se pudo actualizar el usuario.";
+    } catch (err) {
+      const msg = err?.message || err || "Error desconocido";
+      status.textContent = msg;
       status.style.color = "#dc2626";
+      console.error("updateUser error:", err);
       btn.disabled = false;
       btn.textContent = originalText;
     }
