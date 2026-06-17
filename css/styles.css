@@ -318,7 +318,7 @@ header h1 {
   max-height: 56px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
 }
 
 .header-brand span {
@@ -501,6 +501,16 @@ body[data-page="login"] main {
   margin-bottom: 1.25rem;
   border: 1px solid var(--border);
   transition: var(--transition);
+  animation: fade-up 0.4s ease both;
+}
+
+.card:nth-child(2) { animation-delay: 0.05s; }
+.card:nth-child(3) { animation-delay: 0.1s; }
+.card:nth-child(4) { animation-delay: 0.15s; }
+
+@keyframes fade-up {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
 
 .card:hover {
@@ -1392,5 +1402,84 @@ ul[data-project-results] li + li {
   body.nav-open[data-page="judge"] main,
   body.nav-open[data-page="admin"] main {
     padding-top: 180px;
+  }
+}
+
+/* ===== TOASTS ===== */
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: var(--shadow-lg);
+  animation: toast-in 0.3s ease;
+  max-width: 360px;
+  line-height: 1.4;
+}
+
+.toast-hide {
+  animation: toast-out 0.3s ease forwards;
+}
+
+.toast-success { background: #16a34a; }
+.toast-error   { background: #dc2626; }
+.toast-info    { background: #0d2a5b; }
+
+@keyframes toast-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes toast-out {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(100%); opacity: 0; }
+}
+
+/* ===== SKELETONS ===== */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-card {
+  height: 80px;
+  margin-bottom: 1rem;
+}
+
+.skeleton-row {
+  height: 32px;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.skeleton-row:last-child {
+  width: 60%;
+}
+
+@media (max-width: 480px) {
+  .toast {
+    font-size: 0.82rem;
+    padding: 0.6rem 1rem;
+    max-width: 280px;
   }
 }

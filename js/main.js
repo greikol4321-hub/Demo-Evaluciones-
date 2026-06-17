@@ -3,6 +3,55 @@ import { sha256 } from "https://cdn.jsdelivr.net/npm/js-sha256@0.11.1/+esm";
 
 const SESSION_KEY = "ef_user_session";
 const ADMIN_FERIA_FILTER_KEY = "ef_admin_feria_filter";
+const APP_VERSION = "1.0.0";
+
+function showToast(message, type = "info") {
+  const existing = document.querySelector(".toast-container");
+  if (!existing) {
+    const container = document.createElement("div");
+    container.className = "toast-container";
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+  document.querySelector(".toast-container").appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("toast-hide");
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+function showSkeleton(container, rows = 4) {
+  if (!container) return;
+  container.innerHTML = "";
+  for (let i = 0; i < rows; i++) {
+    const div = document.createElement("div");
+    div.className = "skeleton skeleton-row";
+    container.appendChild(div);
+  }
+}
+
+function showSkeletonCard(container) {
+  if (!container) return;
+  container.innerHTML = `<div class="skeleton skeleton-card"></div>`;
+}
+
+let jspdfPromise = null;
+function loadJSPDF() {
+  if (window.jspdf?.jsPDF) return Promise.resolve();
+  if (jspdfPromise) return jspdfPromise;
+  jspdfPromise = new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  return jspdfPromise;
+}
 
 function normalizeRoleName(roleName) {
   const normalized = String(roleName ?? "").trim().toLowerCase();
@@ -223,6 +272,7 @@ function showLogoutModal(user) {
 }
 
 async function generateJudgePDF(user) {
+  await loadJSPDF();
   const { data, error } = await supabase
     .from("evaluaciones_proyectos")
     .select("proyecto_id, criterio, nota, proyectos_ferias(titulo)")
@@ -674,6 +724,8 @@ async function renderProjectResults() {
     return;
   }
 
+  showSkeleton(list, 5);
+
   const { data, error } = await supabase
     .from("resultados_finales_proyectos")
     .select("proyecto_id, titulo, resultado_final, total_jueces")
@@ -925,12 +977,12 @@ async function saveJudgeAssignments(row, onSaved) {
       throw insertError;
     }
 
-    setMessage(status, "Asignacion guardada correctamente.", "success");
+    showToast("Asignacion guardada correctamente.", "success");
     if (typeof onSaved === "function") {
       await onSaved();
     }
   } catch {
-    setMessage(status, "No se pudo guardar la asignacion del juez.", "error");
+    showToast("No se pudo guardar la asignacion.", "error");
   }
 }
 
@@ -1203,10 +1255,10 @@ async function bootstrapJudgePage() {
       }
 
       evaluationForm.reset();
-      setMessage(evaluationStatus, "Evaluacion guardada correctamente.", "success");
+      showToast("Evaluacion guardada correctamente.", "success");
       await refreshJudgeData();
     } catch {
-      setMessage(evaluationStatus, "No se pudo guardar la evaluacion.", "error");
+      showToast("No se pudo guardar la evaluacion.", "error");
     }
 
     btn.disabled = false;
@@ -1253,6 +1305,11 @@ async function bootstrapAdminPage() {
 
   async function refreshAdminDataView() {
     const feriaType = feriaFilterSelect ? String(feriaFilterSelect.value ?? "") : String(user.tipo_feria ?? "");
+
+    const usersTbody = document.querySelector("[data-users-table]");
+    const assignmentsTbody = document.querySelector("[data-assignments-tbody]");
+    if (usersTbody) showSkeleton(usersTbody, 4);
+    if (assignmentsTbody) showSkeleton(assignmentsTbody, 3);
 
     const [rolesResult, judgesResult, projectsResult, assignmentsResult, usersResult] = await Promise.all([
       supabase.from("roles").select("id, nombre").order("nombre", { ascending: true }),
@@ -1323,10 +1380,10 @@ async function bootstrapAdminPage() {
         }
 
         userForm.reset();
-        setMessage(userStatus, "Usuario guardado correctamente.", "success");
+        showToast("Usuario guardado correctamente.", "success");
         await refreshAdminDataView();
-      } catch {
-        setMessage(userStatus, "No se pudo guardar el usuario.", "error");
+      } catch (err) {
+        showToast(err?.message || "No se pudo guardar el usuario.", "error");
       }
 
       btn.disabled = false;
@@ -1526,6 +1583,7 @@ async function deleteUser(userId) {
 }
 
 async function generateAdminPDF() {
+  await loadJSPDF();
   const feriaFilterSelect = document.querySelector("[data-admin-feria-filter]");
   const feriaType = feriaFilterSelect ? String(feriaFilterSelect.value ?? "") : "";
 
